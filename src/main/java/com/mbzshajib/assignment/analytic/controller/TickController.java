@@ -1,7 +1,6 @@
 package com.mbzshajib.assignment.analytic.controller;
 
 import com.mbzshajib.assignment.analytic.annotations.EnableResponseTimeWarning;
-import com.mbzshajib.assignment.analytic.config.ApplicationConfiguration;
 import com.mbzshajib.assignment.analytic.model.TickRequest;
 import com.mbzshajib.assignment.analytic.service.CollectorService;
 import com.mbzshajib.assignment.analytic.utils.Constants;
@@ -22,7 +21,6 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class TickController {
     private final CollectorService collectorService;
-    private final ApplicationConfiguration configuration;
 
     @EnableResponseTimeWarning
     @PostMapping(Constants.Api.TICK)

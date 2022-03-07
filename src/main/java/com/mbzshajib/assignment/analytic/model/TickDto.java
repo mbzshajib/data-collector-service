@@ -8,5 +8,5 @@ import lombok.Data;
 public class TickDto {
     private String instrument;
     private Double price;
-    private String time;
+    private String timeKey;
 }

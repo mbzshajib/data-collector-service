@@ -1,7 +1,8 @@
 package com.mbzshajib.assignment.analytic.service;
 
-import com.mbzshajib.assignment.analytic.model.TickDto;
+import com.mbzshajib.assignment.analytic.model.TickRequest;
 
 public interface CollectorService {
-    void collect(TickDto request);
+
+    void collect(TickRequest request);
 }

@@ -3,13 +3,14 @@ package com.mbzshajib.assignment.analytic.service;
 import com.mbzshajib.assignment.analytic.config.ApplicationConfiguration;
 import com.mbzshajib.assignment.analytic.model.StatisticResponse;
 import com.mbzshajib.assignment.analytic.model.StatisticsDTO;
-import com.mbzshajib.assignment.analytic.storage.MapStorage;
+import com.mbzshajib.assignment.analytic.storage.KeyValueDataRepository;
 import com.mbzshajib.assignment.analytic.utils.Utility;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 @Service
@@ -17,7 +18,7 @@ import java.util.stream.IntStream;
 public class InMemoryTickStatisticsService implements StatisticsService {
     private final int MIN_INDEX = 0;
     private final ApplicationConfiguration configuration;
-    private final MapStorage storage;
+    private final KeyValueDataRepository storage;
 
     @Override
     public StatisticResponse getStatistics(Instant windowEndTime) {
@@ -37,8 +38,9 @@ public class InMemoryTickStatisticsService implements StatisticsService {
                     secondsInTimeWindow.stream()
                             .forEach(entry -> {
                                 String key = Utility.formatStatisticStorageKey(id, instrumentId, entry);
-                                if (storage.getMap().containsKey(key)) {
-                                    StatisticsDTO dto = storage.getMap().get(key);
+                                Optional<StatisticsDTO> statisticsDTO = storage.get(key);
+                                if (statisticsDTO.isPresent()) {
+                                    var dto = statisticsDTO.get();
                                     var count = response.getCount() + dto.getCount();
                                     var total = response.getAvg() * response.getCount() + dto.getTotal();
                                     var min = Math.min(response.getMin(), dto.getMin());
