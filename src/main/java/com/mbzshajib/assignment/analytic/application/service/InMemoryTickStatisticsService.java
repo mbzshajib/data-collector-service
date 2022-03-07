@@ -30,7 +30,7 @@ public class InMemoryTickStatisticsService implements StatisticsService {
     }
 
     private StatisticResponse getStatisticsData(String instrumentId, Instant windowEndTime) {
-        List<String> secondsInTimeWindow = Utility.getAllSecondsInTimeWindow(windowEndTime, configuration.getWorkerThreadWaitTimeinmilis());
+        List<String> secondsInTimeWindow = Utility.getAllSecondsInTimeWindow(windowEndTime, configuration.getCollectorThreadWaitTimeinmilis());
         StatisticResponse response = prepareEmptyResponse();
         int MIN_INDEX = 0;
         IntStream.range(MIN_INDEX, configuration.getCollectorThreadCount())

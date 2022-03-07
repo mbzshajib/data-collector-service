@@ -33,7 +33,7 @@ public class WorkerThreadConfiguration {
         List<Queue<TickDto>> queues = new ArrayList<>();
         IntStream.range(0, configuration.getCollectorThreadCount())
                 .forEach(id -> queues.add(new LinkedBlockingQueue<>()));
-        return new InMemoryQueueDataRepository(configuration.getCollectorThreadCount(), configuration.getMaxQueueSize(), queues);
+        return new InMemoryQueueDataRepository(configuration.getCollectorThreadCount(), configuration.getMaxSizePerQueue(), queues);
     }
 
     @Bean
@@ -55,7 +55,7 @@ public class WorkerThreadConfiguration {
                     );
                     accumulatorExecutor.submit(new Worker(
                             id,
-                            configuration.getWorkerThreadWaitTimeinmilis(),
+                            configuration.getCollectorThreadWaitTimeinmilis(),
                             accumulatingJob)
                     );
                 });
@@ -65,7 +65,7 @@ public class WorkerThreadConfiguration {
     @Bean
     public ExecutorService getSweeperExecutorService(
             ApplicationConfiguration configuration) {
-        ExecutorService sweeperExecutor = Executors.newFixedThreadPool(1);
+        ExecutorService sweeperExecutor = Executors.newFixedThreadPool(configuration.getSweeperThreadCount());
         Job sweepingJob = new SweepingJob(
                 configuration.getSweeperProcessMaxItemsInBatch(),
                 configuration.getWindowSizeInSecond(),
@@ -73,7 +73,7 @@ public class WorkerThreadConfiguration {
         );
         sweeperExecutor.submit(new Worker(
                 100,
-                configuration.getWorkerThreadWaitTimeinmilis(),
+                configuration.getSweeperThreadWaitTimeinmilis(),
                 sweepingJob
         ));
         return sweeperExecutor;

@@ -6,12 +6,16 @@ import org.springframework.context.annotation.Configuration;
 
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "tick.analytic")
+@ConfigurationProperties(prefix = "data.collector")
 public class ApplicationConfiguration {
-    private Integer collectorThreadCount;
     private Integer windowSizeInSecond;
-    private Integer maxQueueSize;
-    private Integer workerThreadWaitTimeinmilis;
+    private Integer maxSizePerQueue;
     private Integer maxApiResponseTimeinmilis;
+    //Collector
+    private Integer collectorThreadCount;
+    private Integer collectorThreadWaitTimeinmilis;
+    //Sweeper
+    private Integer sweeperThreadCount;
+    private Integer sweeperThreadWaitTimeinmilis;
     private Integer sweeperProcessMaxItemsInBatch;
 }
