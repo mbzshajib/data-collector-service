@@ -2,6 +2,7 @@ package com.mbzshajib.assignment.analytic.application.worker;
 
 import com.mbzshajib.assignment.analytic.application.repository.KeyValueDataRepository;
 import com.mbzshajib.assignment.analytic.application.utils.Utility;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -9,9 +10,10 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 @Slf4j
+@Getter
 @RequiredArgsConstructor
 public class SweepingJob implements Job {
-    protected final Integer processingBatchSize;
+    private final Integer processingBatchSize;
     private final Integer windowSizeInSecond;
     private final KeyValueDataRepository repository;
 
