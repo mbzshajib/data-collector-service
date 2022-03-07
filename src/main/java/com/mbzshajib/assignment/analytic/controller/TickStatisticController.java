@@ -1,5 +1,6 @@
 package com.mbzshajib.assignment.analytic.controller;
 
+import com.mbzshajib.assignment.analytic.annotations.EnableResponseTimeWarning;
 import com.mbzshajib.assignment.analytic.model.StatisticResponse;
 import com.mbzshajib.assignment.analytic.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +19,14 @@ import java.time.Instant;
 public class TickStatisticController {
     private final StatisticsService service;
 
+    @EnableResponseTimeWarning
     @GetMapping("/statistics")
     StatisticResponse getStatistics() {
         return service.getStatistics(Instant.now());
 
     }
 
+    @EnableResponseTimeWarning
     @GetMapping("/statistics/{instrumentId}")
     StatisticResponse getStatisticsByInstrumentId(@PathVariable String instrumentId) {
         return service.getStatisticsByInstrumentId(instrumentId, Instant.now());

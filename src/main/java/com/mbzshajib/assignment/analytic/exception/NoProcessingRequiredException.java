@@ -3,8 +3,8 @@ package com.mbzshajib.assignment.analytic.exception;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class ServerOverloadedException extends RuntimeException {
-    public ServerOverloadedException(String message){
+public class NoProcessingRequiredException extends RuntimeException {
+    public NoProcessingRequiredException(String message){
         super(message);
     }
 }
