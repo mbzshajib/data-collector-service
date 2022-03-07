@@ -1,7 +1,6 @@
-package com.mbzshajib.assignment.analytic.utils;
+package com.mbzshajib.assignment.analytic.application.utils;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -16,11 +15,6 @@ import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * @author: Zaman Shajib
- * @email: md.shajib@bKash.com
- * Created on 3/6/22 at 10:57 AM.
- */
 @Slf4j
 public class UtilityTest {
     @Nested
