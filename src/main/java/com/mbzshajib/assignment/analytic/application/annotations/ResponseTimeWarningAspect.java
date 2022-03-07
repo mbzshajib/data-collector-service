@@ -44,8 +44,6 @@ public class ResponseTimeWarningAspect {
     }
 
     private boolean isPrintable(Instant start, Instant end) {
-        if ((end.toEpochMilli() - start.toEpochMilli()) > configuration.getMaxApiResponseTimeinmilis())
-            return true;
-        return false;
+        return (end.toEpochMilli() - start.toEpochMilli()) > configuration.getMaxApiResponseTimeinmilis();
     }
 }

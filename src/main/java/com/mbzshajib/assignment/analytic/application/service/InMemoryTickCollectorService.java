@@ -1,12 +1,12 @@
 package com.mbzshajib.assignment.analytic.application.service;
 
-import com.mbzshajib.assignment.analytic.configurations.ApplicationConfiguration;
 import com.mbzshajib.assignment.analytic.application.exception.FutureRequestException;
 import com.mbzshajib.assignment.analytic.application.exception.NoProcessingRequiredException;
-import com.mbzshajib.assignment.analytic.models.TickDto;
-import com.mbzshajib.assignment.analytic.models.TickRequest;
 import com.mbzshajib.assignment.analytic.application.repository.QueueDataRepository;
 import com.mbzshajib.assignment.analytic.application.utils.Utility;
+import com.mbzshajib.assignment.analytic.configurations.ApplicationConfiguration;
+import com.mbzshajib.assignment.analytic.models.TickDto;
+import com.mbzshajib.assignment.analytic.models.TickRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -40,9 +40,8 @@ public class InMemoryTickCollectorService implements CollectorService {
     }
 
     private int getQueueBucketId(String instrument, String time) {
-        int finalHash = Math.abs(instrument.hashCode()) + Math.abs(time.hashCode());
-        Integer bucket = (finalHash % configuration.getCollectorThreadCount());
-        return bucket;
+        var finalHash = Math.abs(instrument.hashCode()) + Math.abs(time.hashCode());
+        return finalHash % configuration.getCollectorThreadCount();
     }
 
     private TickDto convertRequestToDto(TickRequest request) {

@@ -17,12 +17,11 @@ public class InMemoryKeyValueDataRepository implements KeyValueDataRepository {
     private final Map<String, StatisticsDTO> storage;
 
 
-
     @Override
     public Optional<StatisticsDTO> get(String key) {
         if (storage.containsKey(key)) {
             return Optional.of(storage.get(key));
-        } else return Optional.ofNullable(null);
+        } else return Optional.empty();
     }
 
     @Override
@@ -54,9 +53,7 @@ public class InMemoryKeyValueDataRepository implements KeyValueDataRepository {
 
     @Override
     public void cleanUp(String key) {
-        if (storage.containsKey(key)) {
-            storage.remove(key);
-        }
+        storage.remove(key);
     }
 
 

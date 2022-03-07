@@ -1,6 +1,5 @@
 package com.mbzshajib.assignment.analytic.configurations;
 
-import com.mbzshajib.assignment.analytic.models.TickDto;
 import com.mbzshajib.assignment.analytic.application.repository.InMemoryKeyValueDataRepository;
 import com.mbzshajib.assignment.analytic.application.repository.InMemoryQueueDataRepository;
 import com.mbzshajib.assignment.analytic.application.repository.KeyValueDataRepository;
@@ -9,6 +8,7 @@ import com.mbzshajib.assignment.analytic.application.worker.AccumulatorJob;
 import com.mbzshajib.assignment.analytic.application.worker.Job;
 import com.mbzshajib.assignment.analytic.application.worker.SweepingJob;
 import com.mbzshajib.assignment.analytic.application.worker.Worker;
+import com.mbzshajib.assignment.analytic.models.TickDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -32,9 +32,7 @@ public class WorkerThreadConfiguration {
     public QueueDataRepository getQueueDataRepository(ApplicationConfiguration configuration) {
         List<Queue<TickDto>> queues = new ArrayList<>();
         IntStream.range(0, configuration.getCollectorThreadCount())
-                .forEach(id -> {
-                    queues.add(new LinkedBlockingQueue<>());
-                });
+                .forEach(id -> queues.add(new LinkedBlockingQueue<>()));
         return new InMemoryQueueDataRepository(configuration.getCollectorThreadCount(), configuration.getMaxQueueSize(), queues);
     }
 
@@ -69,9 +67,9 @@ public class WorkerThreadConfiguration {
             ApplicationConfiguration configuration) {
         ExecutorService sweeperExecutor = Executors.newFixedThreadPool(1);
         Job sweepingJob = new SweepingJob(
+                configuration.getSweeperProcessMaxItemsInBatch(),
                 configuration.getWindowSizeInSecond(),
-                getKeyValueDataRepository(),
-                configuration.getSweeperProcessMaxItemsInBatch()
+                getKeyValueDataRepository()
         );
         sweeperExecutor.submit(new Worker(
                 100,

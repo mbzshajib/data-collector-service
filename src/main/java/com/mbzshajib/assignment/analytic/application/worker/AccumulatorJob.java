@@ -1,9 +1,9 @@
 package com.mbzshajib.assignment.analytic.application.worker;
 
+import com.mbzshajib.assignment.analytic.application.repository.KeyValueDataRepository;
+import com.mbzshajib.assignment.analytic.application.utils.Utility;
 import com.mbzshajib.assignment.analytic.models.StatisticsDTO;
 import com.mbzshajib.assignment.analytic.models.TickDto;
-import com.mbzshajib.assignment.analytic.application.utils.Utility;
-import com.mbzshajib.assignment.analytic.application.repository.KeyValueDataRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +20,7 @@ public class AccumulatorJob implements Job {
 
     @Override
     public void doNow() {
-        log.trace("Accumulation job started input {} output {} ", input.hashCode(),outputRepository.hashCode());
+        log.trace("Accumulation job started input {} output {} ", input.hashCode(), outputRepository.hashCode());
         if (!input.isEmpty()) {
             var tick = input.poll();
             var instrumentKey = Utility.formatStatisticStorageKey(id, tick.getInstrument(), tick.getTimeKey());
@@ -31,7 +31,7 @@ public class AccumulatorJob implements Job {
     }
 
     private StatisticsDTO createNewFromTick(TickDto tick) {
-        StatisticsDTO dto = StatisticsDTO
+        return StatisticsDTO
                 .builder()
                 .timeKey(Integer.parseInt(tick.getTimeKey()))
                 .count(1)
@@ -39,6 +39,5 @@ public class AccumulatorJob implements Job {
                 .max(tick.getPrice())
                 .min(tick.getPrice())
                 .build();
-        return dto;
     }
 }

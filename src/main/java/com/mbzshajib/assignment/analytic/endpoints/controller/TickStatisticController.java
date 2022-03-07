@@ -1,8 +1,8 @@
 package com.mbzshajib.assignment.analytic.endpoints.controller;
 
 import com.mbzshajib.assignment.analytic.application.annotations.EnableResponseTimeWarning;
-import com.mbzshajib.assignment.analytic.models.StatisticResponse;
 import com.mbzshajib.assignment.analytic.application.service.StatisticsService;
+import com.mbzshajib.assignment.analytic.models.StatisticResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
