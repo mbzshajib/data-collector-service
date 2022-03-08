@@ -29,5 +29,10 @@ public class SweepingJob implements Job {
             var markedKeys = repository.getPairList(processingBatchSize, (entry) -> entry.getTimeKey() < currentTimeKey);
             markedKeys.forEach((pair) -> repository.cleanUp(pair.getKey()));
         }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            log.error("Sweeping Job encountering sleeping error",e);
+        }
     }
 }

@@ -73,6 +73,7 @@ Below is high-level diagram how the problem was addressed.
 - Some company (popular companies) sending tick rate is high.
 - Burst request can come in peak time.
 - Getting statistics of few company will be too high.
+- If brust request comes statistics info will be available after background processing completes
 
 ## Further Improvement
 
