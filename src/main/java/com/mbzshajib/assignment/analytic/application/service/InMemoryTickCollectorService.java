@@ -38,7 +38,7 @@ public class InMemoryTickCollectorService implements CollectorService {
     }
 
     private int getQueueBucketId(String instrument, String time) {
-        var finalHash = Math.abs(instrument.hashCode()) + Math.abs(time.hashCode());
+        var finalHash = Math.abs(instrument.hashCode() + time.hashCode());
         return finalHash % configuration.getCollectorThreadCount();
     }
 
