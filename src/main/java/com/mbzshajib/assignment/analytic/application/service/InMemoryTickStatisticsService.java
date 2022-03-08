@@ -2,7 +2,6 @@ package com.mbzshajib.assignment.analytic.application.service;
 
 import com.mbzshajib.assignment.analytic.application.exception.DataNotFoundException;
 import com.mbzshajib.assignment.analytic.application.repository.KeyValueDataRepository;
-import com.mbzshajib.assignment.analytic.application.utils.Constants;
 import com.mbzshajib.assignment.analytic.application.utils.Utility;
 import com.mbzshajib.assignment.analytic.configurations.ApplicationConfiguration;
 import com.mbzshajib.assignment.analytic.models.StatisticResponse;
@@ -10,12 +9,13 @@ import com.mbzshajib.assignment.analytic.models.StatisticsDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.IntStream;
 
-import static com.mbzshajib.assignment.analytic.application.utils.Constants.Common.GLOBAL_KEY;
+import static com.mbzshajib.assignment.analytic.application.utils.Constants.Common.*;
 
 @Service
 @RequiredArgsConstructor
@@ -57,7 +57,13 @@ public class InMemoryTickStatisticsService implements StatisticsService {
                             }
                         }));
         if (!found.get()) throw new DataNotFoundException("No statistics data found for '" + instrumentId + "'.");
+        setPrecision(response, PRECISION);
         return response;
+    }
+
+    private void setPrecision(StatisticResponse response, Integer precision) {
+        DecimalFormat dec = new DecimalFormat(PRECISION_FORMAT);
+        dec.format(response.getAvg());
     }
 
     private StatisticResponse prepareEmptyResponse() {
