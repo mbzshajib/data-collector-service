@@ -47,7 +47,7 @@ Below is high-level diagram how the problem was addressed.
   data.
 - **Query** Query service will provide the statistic
   API (```GET /statistics and GET /statistics/{/statistics/{instrument_identifier}}```)
-- A sweeper thread (can be configured if requires more) will always cleanup the old (before 60 seconds) data from aggregated storage in background.
+- **Sweeper** A sweeper thread (can be configured if requires more) will always cleanup the old (before 60 seconds) data from aggregated storage in background.
 ## Assumptions
 
 ## Further Improvement
