@@ -10,7 +10,7 @@ Please note that the service runs on default port **10001**. Two options to star
 
 ### Get the source code
 
-1. Get source from git repository ```https://github.com/mbzshajib/data-collector-service``` .
+1. Get source from git repository [https://github.com/mbzshajib/data-collector-service](https://github.com/mbzshajib/data-collector-service)  .
 2. Go to data-collector-service directory
 3. Checkout main Branch ```git checkout main```
 
