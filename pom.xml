@@ -11,8 +11,8 @@
     <groupId>com.mbzshajib.assignment</groupId>
     <artifactId>data-collector-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>tick-analytic-service</name>
-    <description>Tick Analytics Service</description>
+    <name>data-collector-service</name>
+    <description>Data Collector Service</description>
     <properties>
         <java.version>11</java.version>
     </properties>
