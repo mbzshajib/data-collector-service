@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class WorkerThreadConfiguration {
+public class WorkerConfiguration {
 
     @Bean
     public QueueDataRepository getQueueDataRepository(ApplicationConfiguration configuration) {
@@ -82,7 +82,7 @@ public class WorkerThreadConfiguration {
                 getKeyValueDataRepository()
         );
         sweeperExecutor.submit(new Worker(
-                configuration.getCollectorThreadCount(),
+                configuration.getSweeperThreadCount(),
                 configuration.getSweeperThreadWaitTimeinmilis(),
                 sweepingJob
         ));

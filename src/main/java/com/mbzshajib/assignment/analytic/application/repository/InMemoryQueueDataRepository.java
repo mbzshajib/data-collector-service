@@ -57,8 +57,8 @@ public class InMemoryQueueDataRepository implements QueueDataRepository {
 
     private void checkIndex(int queueIndex) {
         if (queueIndex < MIN_INDEX || queueIndex >= size) {
-            throw new IllegalArgumentException("Invalid argument queueIndex. Should be in between 0<=queueIndex<"
-                    + size);
+            throw new IllegalArgumentException("Invalid argument queueIndex. Should be in between 0<=queueSize"
+                    + size+"<");
         }
     }
 }

@@ -23,7 +23,7 @@ public class Worker implements Runnable {
                 job.doNow();
                 Thread.sleep(waitTime);
             } catch (Exception e) {
-                log.error("Thread id is encountering error", e);
+                log.error("Thread is encountering error", e);
             }
         }
 
