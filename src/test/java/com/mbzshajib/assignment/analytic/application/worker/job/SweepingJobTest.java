@@ -1,8 +1,9 @@
-package com.mbzshajib.assignment.analytic.application.worker;
+package com.mbzshajib.assignment.analytic.application.worker.job;
 
 import com.mbzshajib.assignment.analytic.application.repository.InMemoryKeyValueDataRepository;
 import com.mbzshajib.assignment.analytic.application.repository.KeyValueDataRepository;
 import com.mbzshajib.assignment.analytic.application.utils.Utility;
+import com.mbzshajib.assignment.analytic.application.worker.jobs.SweepingJob;
 import com.mbzshajib.assignment.analytic.common.TestConstants;
 import com.mbzshajib.assignment.analytic.models.StatisticsDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +68,7 @@ class SweepingJobTest {
     void testDoNowExpiredFullBatch() throws InterruptedException {
         assertEquals(0, repository.size());
         IntStream.range(0, job.getProcessingBatchSize()).forEach(id ->
-                repository.saveOrUpdate(Utility.formatStatisticStorageKey(
+                repository.saveOrUpdate(Utility.formatStorageKey(
                                 1,
                                 Utility.convertToKeyTime(instant.plus(id, ChronoUnit.SECONDS)),
                                 TestConstants.TestData.INSTRUMENT_ID[0]

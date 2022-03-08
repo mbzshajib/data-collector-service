@@ -11,10 +11,10 @@ public class ApplicationConfiguration {
     private Integer windowSizeInSecond;
     private Integer maxSizePerQueue;
     private Integer maxApiResponseTimeinmilis;
-    //Collector
+    //Collector Configuration
     private Integer collectorThreadCount;
     private Integer collectorThreadWaitTimeinmilis;
-    //Sweeper
+    //Sweeper Configuration
     private Integer sweeperThreadCount;
     private Integer sweeperThreadWaitTimeinmilis;
     private Integer sweeperProcessMaxItemsInBatch;

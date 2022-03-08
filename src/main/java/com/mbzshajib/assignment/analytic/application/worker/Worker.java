@@ -1,5 +1,6 @@
 package com.mbzshajib.assignment.analytic.application.worker;
 
+import com.mbzshajib.assignment.analytic.application.worker.jobs.Job;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -14,15 +15,15 @@ public class Worker implements Runnable {
         this.job = job;
     }
 
+
     @Override
     public void run() {
         while (true) {
-            log.trace("Worker ID {} Worker process processing {}", id, Thread.currentThread().getName());
             try {
                 job.doNow();
                 Thread.sleep(waitTime);
             } catch (Exception e) {
-                log.error("Thread {} is encountering error", Thread.currentThread().getName(), e);
+                log.error("Thread id is encountering error", e);
             }
         }
 

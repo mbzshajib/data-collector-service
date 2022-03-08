@@ -31,12 +31,10 @@ public class InMemoryTickCollectorService implements CollectorService {
 
     private void validateRequestTime(TickRequest request, Instant startTime) {
         var timeDiffSeconds = Utility.getTimeDiffInSeconds(request.getTimestamp(), startTime.toEpochMilli());
-        if (timeDiffSeconds < 0) {
+        if (timeDiffSeconds < 0)
             throw new FutureRequestException("Future tick not supported");
-        }
-        if (timeDiffSeconds > configuration.getWindowSizeInSecond()) {
+        if (timeDiffSeconds > configuration.getWindowSizeInSecond())
             throw new NoProcessingRequiredException("Tick received before window time.");
-        }
     }
 
     private int getQueueBucketId(String instrument, String time) {

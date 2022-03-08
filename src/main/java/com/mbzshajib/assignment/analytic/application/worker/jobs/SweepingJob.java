@@ -1,4 +1,4 @@
-package com.mbzshajib.assignment.analytic.application.worker;
+package com.mbzshajib.assignment.analytic.application.worker.jobs;
 
 import com.mbzshajib.assignment.analytic.application.repository.KeyValueDataRepository;
 import com.mbzshajib.assignment.analytic.application.utils.Utility;
@@ -17,9 +17,12 @@ public class SweepingJob implements Job {
     private final Integer windowSizeInSecond;
     private final KeyValueDataRepository repository;
 
+    /**
+     * Sweeping process to process from queue and save in key value repository.
+     */
     @Override
     public void doNow() {
-        log.trace("Sweeping job started {} ", repository.hasData());
+        log.debug("Sweeping job started. Remains {} data to process ", repository.size());
         if (repository.hasData()) {
             var currentTime = Instant.now().minus(windowSizeInSecond + 1, ChronoUnit.SECONDS);
             var currentTimeKey = Integer.parseInt(Utility.convertToKeyTime(currentTime));

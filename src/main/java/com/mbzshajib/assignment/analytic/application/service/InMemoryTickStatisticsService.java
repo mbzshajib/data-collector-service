@@ -2,6 +2,7 @@ package com.mbzshajib.assignment.analytic.application.service;
 
 import com.mbzshajib.assignment.analytic.application.exception.DataNotFoundException;
 import com.mbzshajib.assignment.analytic.application.repository.KeyValueDataRepository;
+import com.mbzshajib.assignment.analytic.application.utils.Constants;
 import com.mbzshajib.assignment.analytic.application.utils.Utility;
 import com.mbzshajib.assignment.analytic.configurations.ApplicationConfiguration;
 import com.mbzshajib.assignment.analytic.models.StatisticResponse;
@@ -10,10 +11,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.IntStream;
+
+import static com.mbzshajib.assignment.analytic.application.utils.Constants.Common.GLOBAL_KEY;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +25,7 @@ public class InMemoryTickStatisticsService implements StatisticsService {
 
     @Override
     public StatisticResponse getStatistics(Instant windowEndTime) {
-        return getStatisticsData("", windowEndTime);
+        return getStatisticsData(GLOBAL_KEY, windowEndTime);
     }
 
     @Override
@@ -32,14 +34,14 @@ public class InMemoryTickStatisticsService implements StatisticsService {
     }
 
     private StatisticResponse getStatisticsData(String instrumentId, Instant windowEndTime) {
-        List<String> secondsInTimeWindow = Utility.getAllSecondsInTimeWindow(windowEndTime, configuration.getWindowSizeInSecond());
-        StatisticResponse response = prepareEmptyResponse();
-        int MIN_INDEX = 0;
-        AtomicBoolean found = new AtomicBoolean(false);
+        var secondsInTimeWindow = Utility.getSecondsInATimeWindow(windowEndTime, configuration.getWindowSizeInSecond());
+        var response = prepareEmptyResponse();
+        var MIN_INDEX = 0;
+        var found = new AtomicBoolean(false);
         IntStream.range(MIN_INDEX, configuration.getCollectorThreadCount())
                 .forEach(id -> secondsInTimeWindow
                         .forEach(entry -> {
-                            String key = Utility.formatStatisticStorageKey(id, instrumentId, entry);
+                            String key = Utility.formatStorageKey(id, instrumentId, entry);
                             Optional<StatisticsDTO> statisticsDTO = storage.get(key);
                             if (statisticsDTO.isPresent()) {
                                 found.set(true);

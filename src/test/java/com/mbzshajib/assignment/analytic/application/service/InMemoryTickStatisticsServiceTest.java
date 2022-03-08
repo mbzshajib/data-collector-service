@@ -95,14 +95,14 @@ class InMemoryTickStatisticsServiceTest {
     }
 
     private String key(Integer processId, String instrument) {
-        return Utility.formatStatisticStorageKey(processId, instrument, Utility.convertToKeyTime(now));
+        return Utility.formatStorageKey(processId, instrument, Utility.convertToKeyTime(now));
     }
 
     private List<Pair> sampleStatisticsDto(String instrument) {
         return IntStream.rangeClosed(1, configuration.getCollectorThreadCount())
                 .mapToObj(id ->
                         Pair.builder()
-                                .key(Utility.formatStatisticStorageKey(
+                                .key(Utility.formatStorageKey(
                                         id,
                                         instrument,
                                         Utility.convertToKeyTime(now.minus(id % 60, ChronoUnit.SECONDS)))

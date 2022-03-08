@@ -1,5 +1,6 @@
 package com.mbzshajib.assignment.analytic.application.worker;
 
+import com.mbzshajib.assignment.analytic.application.worker.job.ExceptionGenerationJob;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 

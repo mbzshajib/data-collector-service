@@ -5,6 +5,7 @@ public interface Constants {
         String KEY_SEPARATOR = ".";
         String KEY_DATE_FORMAT = "HHmmss";
         String KEY_THREAD_ID_FORMAT = "%02d";
+        String GLOBAL_KEY = "";
     }
 
     interface HttpMethod {

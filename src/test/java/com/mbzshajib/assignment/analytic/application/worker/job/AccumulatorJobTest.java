@@ -1,8 +1,9 @@
-package com.mbzshajib.assignment.analytic.application.worker;
+package com.mbzshajib.assignment.analytic.application.worker.job;
 
 import com.mbzshajib.assignment.analytic.application.repository.InMemoryKeyValueDataRepository;
 import com.mbzshajib.assignment.analytic.application.repository.KeyValueDataRepository;
 import com.mbzshajib.assignment.analytic.application.utils.Utility;
+import com.mbzshajib.assignment.analytic.application.worker.jobs.AccumulatorJob;
 import com.mbzshajib.assignment.analytic.models.TickDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

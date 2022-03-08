@@ -4,9 +4,9 @@ import com.mbzshajib.assignment.analytic.application.repository.InMemoryKeyValue
 import com.mbzshajib.assignment.analytic.application.repository.InMemoryQueueDataRepository;
 import com.mbzshajib.assignment.analytic.application.repository.KeyValueDataRepository;
 import com.mbzshajib.assignment.analytic.application.repository.QueueDataRepository;
-import com.mbzshajib.assignment.analytic.application.worker.AccumulatorJob;
-import com.mbzshajib.assignment.analytic.application.worker.Job;
-import com.mbzshajib.assignment.analytic.application.worker.SweepingJob;
+import com.mbzshajib.assignment.analytic.application.worker.jobs.AccumulatorJob;
+import com.mbzshajib.assignment.analytic.application.worker.jobs.Job;
+import com.mbzshajib.assignment.analytic.application.worker.jobs.SweepingJob;
 import com.mbzshajib.assignment.analytic.application.worker.Worker;
 import com.mbzshajib.assignment.analytic.models.TickDto;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +41,11 @@ public class WorkerThreadConfiguration {
         return new InMemoryKeyValueDataRepository(new ConcurrentHashMap<>());
     }
 
+    /**
+     * Configuring sweeper and binding the output repository to be sweeped
+     * @param configuration application configuration
+     * @return sweeper executor service
+     */
     @Bean
     public ExecutorService getAccumulatorExecutorService(
             ApplicationConfiguration configuration
@@ -62,6 +67,11 @@ public class WorkerThreadConfiguration {
         return accumulatorExecutor;
     }
 
+    /**
+     * Configuring sweeper and binding the output repository to be clean
+     * @param configuration application configuration
+     * @return sweeper executor service
+     */
     @Bean
     public ExecutorService getSweeperExecutorService(
             ApplicationConfiguration configuration) {
@@ -72,7 +82,7 @@ public class WorkerThreadConfiguration {
                 getKeyValueDataRepository()
         );
         sweeperExecutor.submit(new Worker(
-                100,
+                configuration.getCollectorThreadCount(),
                 configuration.getSweeperThreadWaitTimeinmilis(),
                 sweepingJob
         ));

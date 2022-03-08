@@ -1,4 +1,4 @@
-package com.mbzshajib.assignment.analytic.application.worker;
+package com.mbzshajib.assignment.analytic.application.worker.jobs;
 
 import com.mbzshajib.assignment.analytic.application.repository.KeyValueDataRepository;
 import com.mbzshajib.assignment.analytic.application.utils.Utility;
@@ -19,13 +19,16 @@ public class AccumulatorJob implements Job {
     private final Queue<TickDto> inputRepository;
     private final KeyValueDataRepository outputRepository;
 
+    /**
+     * Accumulating job to process from queue and save in key value repository.
+     */
     @Override
     public void doNow() {
-        log.trace("Accumulation job started input {} output {} ", inputRepository.hashCode(), outputRepository.hashCode());
+        log.debug("Accumulation job {} started. Remains {} data to process ", id, inputRepository.size());
         if (!inputRepository.isEmpty()) {
             var tick = inputRepository.poll();
-            var instrumentKey = Utility.formatStatisticStorageKey(id, tick.getInstrument(), tick.getTimeKey());
-            var globalKey = Utility.formatStatisticStorageKey(id, GLOBAL_KEY_IDENTIFIER, tick.getTimeKey());
+            var instrumentKey = Utility.formatStorageKey(id, tick.getInstrument(), tick.getTimeKey());
+            var globalKey = Utility.formatStorageKey(id, GLOBAL_KEY_IDENTIFIER, tick.getTimeKey());
             outputRepository.saveOrUpdate(instrumentKey, createNewFromTick(tick));
             outputRepository.saveOrUpdate(globalKey, createNewFromTick(tick));
         }

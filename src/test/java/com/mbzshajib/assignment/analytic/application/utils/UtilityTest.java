@@ -56,22 +56,22 @@ public class UtilityTest {
             List<String> expected = new ArrayList<>();
             IntStream.rangeClosed(0, 5)
                     .forEach(i -> expected.add(Utility.convertToKeyTime(endTime.minus(i, ChronoUnit.SECONDS))));
-            List<String> result = Utility.getAllSecondsInTimeWindow(endTime, windowSize);
+            List<String> result = Utility.getSecondsInATimeWindow(endTime, windowSize);
             assertEquals(windowSize+1, result.size());
             assertEquals(windowSize+1, result.size());
             assertEquals(expected.size(), result.size());
             assertTrue(expected.containsAll(result));
 
-            assertThrows(IllegalArgumentException.class, () -> Utility.getAllSecondsInTimeWindow(endTime, 0), "window time can not be null");
+            assertThrows(IllegalArgumentException.class, () -> Utility.getSecondsInATimeWindow(endTime, 0), "window time can not be null");
         }
 
         @Test
         void testFormatStatisticStorageKey() {
-            assertEquals("testDateId.hello.100", Utility.formatStatisticStorageKey(100, "testDateId", "hello"));
-            assertEquals("testDateId. .100", Utility.formatStatisticStorageKey(100, "testDateId", " "));
-            assertThrows(IllegalArgumentException.class, () -> Utility.formatStatisticStorageKey(-1, "testDateId", " "), "Negative is not allowed in process ID");
-            assertThrows(IllegalArgumentException.class, () -> Utility.formatStatisticStorageKey(100, null, ""), "Data Id can not be null");
-            assertThrows(IllegalArgumentException.class, () -> Utility.formatStatisticStorageKey(100, "dataId", null), "Time Id can not be null");
+            assertEquals("testDateId.hello.100", Utility.formatStorageKey(100, "testDateId", "hello"));
+            assertEquals("testDateId. .100", Utility.formatStorageKey(100, "testDateId", " "));
+            assertThrows(IllegalArgumentException.class, () -> Utility.formatStorageKey(-1, "testDateId", " "), "Negative is not allowed in process ID");
+            assertThrows(IllegalArgumentException.class, () -> Utility.formatStorageKey(100, null, ""), "Data Id can not be null");
+            assertThrows(IllegalArgumentException.class, () -> Utility.formatStorageKey(100, "dataId", null), "Time Id can not be null");
         }
     }
 

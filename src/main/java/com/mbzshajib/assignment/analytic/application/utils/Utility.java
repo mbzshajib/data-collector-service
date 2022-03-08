@@ -30,7 +30,7 @@ public class Utility {
         return Duration.between(Instant.ofEpochMilli(from), Instant.ofEpochMilli(to)).getSeconds();
     }
 
-    public static List<String> getAllSecondsInTimeWindow(Instant endTime, int windowTimeInSecond) {
+    public static List<String> getSecondsInATimeWindow(Instant endTime, int windowTimeInSecond) {
         if (windowTimeInSecond <= 0) throw new IllegalArgumentException("window time can not be <=0");
         List<String> result = new ArrayList<>();
         IntStream.rangeClosed(0, windowTimeInSecond)
@@ -38,7 +38,7 @@ public class Utility {
         return result;
     }
 
-    public static String formatStatisticStorageKey(Integer processId, String dataId, String timeId) {
+    public static String formatStorageKey(Integer processId, String dataId, String timeId) {
         if (processId < 0) throw new IllegalArgumentException("negetive is not allowed in processId");
         if (dataId == null) throw new IllegalArgumentException("dataId can not be null");
         if (timeId == null) throw new IllegalArgumentException("timeId can not be null");
