@@ -14,7 +14,7 @@ Please note that the service runs on default port **10001**. Two options to star
 2. Go to data-collector-service directory
 3. Checkout main Branch ```git checkout main```
 
-### Execute in Local Machine
+### Deploy in Local Machine
 
 - Execute following command to start the application in local machine ```./mvnw spring-boot:run```
 
