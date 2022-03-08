@@ -54,13 +54,11 @@ public class UtilityTest {
             int windowSize = 5;
             Instant endTime = Instant.now();
             List<String> expected = new ArrayList<>();
-            IntStream.rangeClosed(1, 5)
-                    .forEach(i -> {
-                        expected.add(Utility.convertToKeyTime(endTime.minus(i, ChronoUnit.SECONDS)));
-                    });
+            IntStream.rangeClosed(0, 5)
+                    .forEach(i -> expected.add(Utility.convertToKeyTime(endTime.minus(i, ChronoUnit.SECONDS))));
             List<String> result = Utility.getAllSecondsInTimeWindow(endTime, windowSize);
-            assertEquals(windowSize, result.size());
-            assertEquals(windowSize, result.size());
+            assertEquals(windowSize+1, result.size());
+            assertEquals(windowSize+1, result.size());
             assertEquals(expected.size(), result.size());
             assertTrue(expected.containsAll(result));
 

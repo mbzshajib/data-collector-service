@@ -33,7 +33,7 @@ public class Utility {
     public static List<String> getAllSecondsInTimeWindow(Instant endTime, int windowTimeInSecond) {
         if (windowTimeInSecond <= 0) throw new IllegalArgumentException("window time can not be <=0");
         List<String> result = new ArrayList<>();
-        IntStream.rangeClosed(1, windowTimeInSecond)
+        IntStream.rangeClosed(0, windowTimeInSecond)
                 .forEach(second -> result.add(Utility.convertToKeyTime(endTime.minus(second, ChronoUnit.SECONDS))));
         return result;
     }

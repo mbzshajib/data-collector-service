@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 @Builder
 public class StatisticsDTO {
-    private Integer timeKey;
+    private int timeKey;
     private double total;
     private double min;
     private double max;
-    private Integer count;
+    private int count;
 }

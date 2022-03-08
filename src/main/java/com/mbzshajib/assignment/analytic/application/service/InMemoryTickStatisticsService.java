@@ -1,5 +1,6 @@
 package com.mbzshajib.assignment.analytic.application.service;
 
+import com.mbzshajib.assignment.analytic.application.exception.DataNotFoundException;
 import com.mbzshajib.assignment.analytic.application.repository.KeyValueDataRepository;
 import com.mbzshajib.assignment.analytic.application.utils.Utility;
 import com.mbzshajib.assignment.analytic.configurations.ApplicationConfiguration;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.IntStream;
 
 @Service
@@ -30,15 +32,17 @@ public class InMemoryTickStatisticsService implements StatisticsService {
     }
 
     private StatisticResponse getStatisticsData(String instrumentId, Instant windowEndTime) {
-        List<String> secondsInTimeWindow = Utility.getAllSecondsInTimeWindow(windowEndTime, configuration.getCollectorThreadWaitTimeinmilis());
+        List<String> secondsInTimeWindow = Utility.getAllSecondsInTimeWindow(windowEndTime, configuration.getWindowSizeInSecond());
         StatisticResponse response = prepareEmptyResponse();
         int MIN_INDEX = 0;
+        AtomicBoolean found = new AtomicBoolean(false);
         IntStream.range(MIN_INDEX, configuration.getCollectorThreadCount())
                 .forEach(id -> secondsInTimeWindow
                         .forEach(entry -> {
                             String key = Utility.formatStatisticStorageKey(id, instrumentId, entry);
                             Optional<StatisticsDTO> statisticsDTO = storage.get(key);
                             if (statisticsDTO.isPresent()) {
+                                found.set(true);
                                 var dto = statisticsDTO.get();
                                 var count = response.getCount() + dto.getCount();
                                 var total = response.getAvg() * response.getCount() + dto.getTotal();
@@ -50,6 +54,7 @@ public class InMemoryTickStatisticsService implements StatisticsService {
                                 response.setMax(max);
                             }
                         }));
+        if (!found.get()) throw new DataNotFoundException("No statistics data found for '" + instrumentId + "'.");
         return response;
     }
 

@@ -21,11 +21,9 @@ public class Worker implements Runnable {
             try {
                 job.doNow();
                 Thread.sleep(waitTime);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
                 log.error("Thread {} is encountering error", Thread.currentThread().getName(), e);
             }
-
         }
 
     }

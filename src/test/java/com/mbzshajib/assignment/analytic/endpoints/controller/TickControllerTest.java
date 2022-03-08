@@ -3,6 +3,7 @@ package com.mbzshajib.assignment.analytic.endpoints.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mbzshajib.assignment.analytic.application.exception.FutureRequestException;
 import com.mbzshajib.assignment.analytic.application.exception.NoProcessingRequiredException;
+import com.mbzshajib.assignment.analytic.application.exception.QueueOverFlowException;
 import com.mbzshajib.assignment.analytic.application.service.CollectorService;
 import com.mbzshajib.assignment.analytic.application.utils.Constants;
 import com.mbzshajib.assignment.analytic.configurations.ApplicationConfiguration;
@@ -36,21 +37,29 @@ class TickControllerTest {
     @MockBean
     private CollectorService collectorService;
 
-
-    public static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Test
     public void shouldReturnMethodNotAllowed() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get(Constants.Api.TICK)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    public void shouldReturnInternalServerErrorForInvalidData() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(Constants.Api.TICK)
+                        .content("null")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError());
+    }
+    @Test
+    public void shouldReturnInvalidArgumentException() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(Constants.Api.TICK)
+                        .content(asJsonString(createRequest(null, Instant.now())))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -83,6 +92,25 @@ class TickControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    public void shouldReturnServerError() throws Exception {
+        Mockito.doThrow(ArrayIndexOutOfBoundsException.class).when(collectorService).collect(any(TickRequest.class));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(Constants.Api.TICK)
+                        .content(asJsonString(createRequest(PRICE_LIST[0], Instant.now().plus(60, ChronoUnit.SECONDS))))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError());
+    }
+    @Test
+    public void shouldReturnServerOverloaded() throws Exception {
+        Mockito.doThrow(QueueOverFlowException.class).when(collectorService).collect(any(TickRequest.class));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(Constants.Api.TICK)
+                        .content(asJsonString(createRequest(PRICE_LIST[0], Instant.now().plus(60, ChronoUnit.SECONDS))))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is5xxServerError());
+    }
+
     private TickRequest createRequest(Double price, Instant instant) {
         return TickRequest
                 .builder()
@@ -91,4 +119,13 @@ class TickControllerTest {
                 .timestamp(instant.toEpochMilli())
                 .build();
     }
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

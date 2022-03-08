@@ -2,7 +2,7 @@ package com.mbzshajib.assignment.analytic.endpoints.excptionresolver;
 
 import com.mbzshajib.assignment.analytic.application.exception.FutureRequestException;
 import com.mbzshajib.assignment.analytic.application.exception.NoProcessingRequiredException;
-import com.mbzshajib.assignment.analytic.application.exception.ServerOverloadedException;
+import com.mbzshajib.assignment.analytic.application.exception.QueueOverFlowException;
 import com.mbzshajib.assignment.analytic.endpoints.controller.TickController;
 import com.mbzshajib.assignment.analytic.endpoints.controller.TickStatisticController;
 import com.mbzshajib.assignment.analytic.models.ErrorResponse;
@@ -27,8 +27,8 @@ public class TickControllerAdvice {
 
     @ResponseBody
     @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
-    @ExceptionHandler(ServerOverloadedException.class)
-    public void handleServerOverloadedException(ServerOverloadedException exception) {
+    @ExceptionHandler(QueueOverFlowException.class)
+    public void handleServerOverloadedException(QueueOverFlowException exception) {
     }
 
     @ResponseBody
@@ -51,7 +51,7 @@ public class TickControllerAdvice {
 
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({MethodArgumentNotValidException.class})
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
 
         return ErrorResponse.builder()
