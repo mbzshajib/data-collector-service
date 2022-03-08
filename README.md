@@ -101,34 +101,32 @@ Below is high-level diagram how the problem was addressed.
 - Very interesting challenge.
 - Most of the time we developers use helping technology. But without those
 
-## API cURL Script
+## API HTTP Request
 
 ### API 1: POST /tick (application/json)
 
 ```
-curl -X POST \
-  http://localhost:10001/ticks \
-  -H 'cache-control: no-cache' \
-  -H 'content-type: application/json'
-  -d '{
-	"instrument":"ABCD",
-	"price":	100.2,
-	"timestamp": 1646750696170
-}'
+POST /ticks HTTP/1.1
+Host: localhost:10001
+Content-Type: application/json
+
+{
+	"instrument":"ACD",
+	"price":	0.2,
+	"timestamp": 1646774304498
+}
 ```
 
 ### API 2: GET /statistics
 
 ```
-curl -X GET \
-  http://localhost:10001/statistics \
-  -H 'cache-control: no-cache'
+GET /statistics HTTP/1.1
+Host: localhost:10001
 ```
 
 ### API 3: GET /statistics/{instrument_identifier}
 
 ```
-curl -X GET \
-  http://localhost:10001/statistics{instrument_identifier} \
-  -H 'cache-control: no-cache'
+GET /statistics/{instrument_identifier} HTTP/1.1
+Host: localhost:10001/statistics/{instrument_identifier}
 ```
