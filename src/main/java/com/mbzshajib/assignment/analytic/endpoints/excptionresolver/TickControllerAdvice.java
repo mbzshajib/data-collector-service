@@ -1,5 +1,6 @@
 package com.mbzshajib.assignment.analytic.endpoints.excptionresolver;
 
+import com.mbzshajib.assignment.analytic.application.exception.DataNotFoundException;
 import com.mbzshajib.assignment.analytic.application.exception.FutureRequestException;
 import com.mbzshajib.assignment.analytic.application.exception.NoProcessingRequiredException;
 import com.mbzshajib.assignment.analytic.application.exception.QueueOverFlowException;
@@ -35,6 +36,12 @@ public class TickControllerAdvice {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ExceptionHandler(NoProcessingRequiredException.class)
     public void handleNoProcessingRequiredException(NoProcessingRequiredException exception) {
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(DataNotFoundException.class)
+    public void handleDataNotFoundException(DataNotFoundException exception) {
     }
 
 

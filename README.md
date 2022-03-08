@@ -26,7 +26,8 @@ of ```data-collector-service/src/main/resources/application.properties``` file_
 Execute following commands to start the application in docker container.
 
 1. Go to data-collector-service
-2. Execute ```docker build -t mbzshajib/data-collector-service .``` (one time)
+2. Execute ```./mvnw clean package```
+2. Execute ```docker build -t mbzshajib/data-collector-service .```
 3. Execute ```docker run -p 10001:10001 mbzshajib/data-collector-service```
 
 **Note:** need to docker installed to run in container
