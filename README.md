@@ -99,7 +99,7 @@ Below is high-level diagram how the problem was addressed.
 ## Regarding the Challenge
 
 - Very interesting challenge.
-- Most of the time we developers use helping technology. But without those
+- It was a combination of memory management, Multi threading and Concurrency challenges which we face separately.
 
 ## API HTTP Request
 
